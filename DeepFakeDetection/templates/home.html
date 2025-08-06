@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block styles %}
+<style>
+    .equal-height {
+        width: 18rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 250px;
+        margin-bottom: 20px;
+    }
+
+    .post-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .card-img-top {
+        width: 100%;
+        height: auto;
+    }
+
+    video.card-img-top {
+        width: 100%;
+        height: auto;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        {% if logged_in %}
+        <div class="card text-center equal-height" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title" >Welcome Back!</h5>
+                <p class="card-text">Go to your dashboard to upload content or view your profile.</p>
+                <a href="{{ url_for('dashboard') }}" class="btn btn-primary">Go to Dashboard</a>
+            </div>
+        </div>
+
+        <!-- Display posts -->
+        <div class="post-container">
+            {% for post, username in posts %}
+            <div class="card text-center equal-height">
+                <div class="card-body">
+                    <h5 class="card-title">Post by {{ username }}</h5>
+                    {% if post.file_path.rsplit('.', 1)[1].lower() in ['jpg', 'jpeg', 'png', 'gif'] %}
+                    <!-- Display Image -->
+                    <img src="static\uploads\{{post.file_path[15:]}}" class="card-img-top" alt="Post Image">
+                    
+                    {% elif post.file_path.rsplit('.', 1)[1].lower() in ['mp4', 'avi', 'mov'] %}
+                    <!-- Display Video -->
+                    <video controls class="card-img-top" preload="auto">
+                        <source src="static\uploads\{{post.file_path[15:]}}" type="video/{{ post.file_type }}">
+                        Your browser does not support the video tag.
+                    </video>                                      
+                    {% endif %}
+
+                    <!-- Display Uploaded Date -->
+                    <p class="card-text">Uploaded on {{ post.upload_time.strftime('%Y-%m-%d') }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        {% else %}
+        <div class="card text-center equal-height">
+            <div class="card-body">
+                <h5 class="card-title">Login</h5>
+                <p class="card-text">Already have an account? Log in to access your dashboard.</p>
+                <a href="{{ url_for('login') }}" class="btn btn-primary">Login</a>
+            </div>
+        </div>
+
+        <div class="card text-center equal-height">
+            <div class="card-body">
+                <h5 class="card-title">Sign Up</h5>
+                <p class="card-text">New here? Sign up to create an account.</p>
+                <a href="{{ url_for('signup') }}" class="btn btn-secondary">Sign Up</a>
+            </div>
+        </div>
+
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

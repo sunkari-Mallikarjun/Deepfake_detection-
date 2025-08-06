@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Upload{% endblock %}
+
+{% block content %}
+<body>
+    <style type='text/css'>
+        @keyframes example {
+           0%{
+            background-color:#0d6efd;
+           }
+           50%{
+            background-color:#006d5b;
+           }
+           100%{
+            background-color:#0d6efd;
+           }
+        }
+        button:hover{
+            animation: example 2s infinite;
+        }
+</style>
+<div class="container mt-4">
+    <h3>Upload an Image or Video</h3>
+    
+    <form action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="file">Select a file (Image or Video):</label>
+            <input type="file" class="form-control" name="file" id="file" required>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Upload</button>
+    </form>
+</div>
+</body>
+{% endblock %}
+

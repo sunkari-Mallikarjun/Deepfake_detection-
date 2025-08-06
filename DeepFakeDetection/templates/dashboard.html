@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<style type = 'text/css'>
+    div {
+        shadow-color:'red';
+        box-shadow:20px;
+        display:auto;
+        margin:5px;
+        border-radius:20px 20px 20px 20px;
+    }
+    </style>
+<div class="container mt-4">
+    <h1>Welcome, {{ user.username }}!</h1>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    Profile
+                </div>
+                <div class="card-body">
+                    <p><strong>Email:</strong> {{ user.email }}</p>
+                    <p><strong>Joined:</strong> {{ user.joined_at.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+                    <a href="{{ url_for('profile') }}" class="btn btn-primary">View Profile</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    Upload
+                </div>
+                <div class="card-body">
+                    <p>Upload an image or video for deepfake detection.</p>
+                    <a href="{{ url_for('upload') }}" class="btn btn-primary">Upload</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
